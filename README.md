@@ -1,16 +1,19 @@
-# Quara-Task1
+# Task2
 
-A simple Node.js + Express + TypeScript + Sequelize + PostgreSQL CRUD application for managing members.
+A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for managing Members and Roles with many-to-many relationships.
 
 ---
 
 ##  Features
 
 - Add, update, delete, and view members
-- Validations for name and email
-- Sequelize ORM with UUID as ID
-- REST API built with Express
-- PostgreSQL as the database
+- Assign and update roles for members (many-to-many relationship)
+- View all roles for a member or all members for a role
+- Validation using Joi
+- Sequelize ORM with UUIDs
+- PostgreSQL for database
+- TypeScript for type safety
+- Clean folder structure 
 
 ---
 
@@ -21,31 +24,33 @@ A simple Node.js + Express + TypeScript + Sequelize + PostgreSQL CRUD applicatio
 - TypeScript
 - Sequelize
 - PostgreSQL
+- node-watch 
 
 ---
-
 ##  Project Structure
 
 ```
 ├── src/
-│   ├── config/        # Database configuration
-│   ├── controllers/   # Express route handlers
-│   ├── models/        # Sequelize models
-│   ├── routes/        # API route definitions
-│   ├── services/      # Business logic and data access
-│   └── index.ts       # Entry point
-├── dist/              # Compiled JavaScript (after build)
-├── .env               # Environment variables
-├── package.json       # Project metadata and scripts
-├── tsconfig.json      # TypeScript configuration
-├── .gitignore         # Files/folders ignored by Git
+│ ├── config/              # Database configuration
+│ ├── controllers/         # Express route handlers
+│ ├── models/              # Sequelize models (Member, Role, MemberRole)
+│ ├── routes/              # API route definitions
+│ ├── services/            # Business logic (optional)
+│ ├── types/               # Type definitions (if any)
+│ ├── validations/         # Joi schemas and validation logic
+│ ├── watch.ts             # Watcher entry file for node-watch
+│ └── index.ts             # Application entry point
+├── .env                   # Environment variables
+├── package.json           # Scripts and dependencies
+├── tsconfig.json          # TypeScript compiler options
+├── .gitignore             # Git ignore rules
 ```
 
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/Quara-Task1.git
-cd Quara-Task1
+git clone https://github.com/NikhithaReddy8/Quara-Task2.git
+cd Quara-Task2
 npm install
 ```
 
@@ -66,8 +71,7 @@ DB_PORT=5432
 To build and start the server:
 
 ```bash
-npx tsc     # Compile TypeScript to JavaScript
-node dist/index.js
+npm run watch
 ```
 The server will be running on:
 
