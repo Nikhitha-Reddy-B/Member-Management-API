@@ -14,7 +14,7 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - PostgreSQL for database
 - TypeScript for type safety
 - Clean folder structure 
-
+- JWT-based login API for authentication
 ---
 
 ##  Tech Stack
@@ -64,6 +64,7 @@ DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_HOST=localhost
 DB_PORT=5432
+JWT_SECRET=your_super_key
 ```
 
 ## Running locally
