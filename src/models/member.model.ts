@@ -12,10 +12,10 @@ class Member extends Model {
   public id!: string;
   public name!: string;
   public email!: string;
+  public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Sequelize mixin methods for many-to-many Role association
   public addRole!: BelongsToManyAddAssociationMixin<Role, string>;
   public removeRole!: BelongsToManyRemoveAssociationMixin<Role, string>;
   public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
@@ -44,6 +44,15 @@ Member.init(
       validate: {
         isEmail: {
           msg: 'Must be a valid email address',
+        },
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Password must not be empty',
         },
       },
     },

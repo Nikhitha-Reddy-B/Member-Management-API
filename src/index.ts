@@ -4,6 +4,7 @@ import sequelize from './config/db';
 import memberRoutes from './routes/member.routes';
 import roleRoutes from './routes/role.routes';
 import memberRoleRoutes from './routes/memberRole.routes';
+import authRoutes from './routes/auth.routes';
 import './models';
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 app.use('/members', memberRoutes);
 app.use('/roles', roleRoutes);
 app.use('/member_roles', memberRoleRoutes);
+app.use('/api/auth', authRoutes);
 
 async function start() {
   try {

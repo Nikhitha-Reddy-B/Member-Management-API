@@ -2,8 +2,8 @@ import Member from '../models/member.model';
 import Role from '../models/role.model';
 import MemberRole from '../models/memberRole.model';
 
-export const createMember = async (name: string, email: string) => {
-  return await Member.create({ name, email });
+export const createMember = async (name: string, email: string, password: string) => {
+  return await Member.create({ name, email, password });
 };
 
 export const getAllMembers = async () => {

@@ -3,22 +3,27 @@ import { memberSchema } from '../validations/member.schema';
 import { uuidSchema } from '../validations/uuid.schema';
 import * as memberService from '../services/member.service';
 import MemberRole from '../models/memberRole.model';
+import bcrypt from 'bcrypt';
 
 export const create = async (req: Request, res: Response) => {
   const { error } = memberSchema.validate(req.body, { abortEarly: false });
   if (error) return res.status(400).json({ errors: error.details.map(d => d.message) });
 
   try {
-    const { name, email, roleId } = req.body;
-    const newMember = await memberService.createMember(name, email);
+    const { name, email, password, roleId } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newMember = await memberService.createMember(name, email, hashedPassword);
+
     if (roleId) {
       await MemberRole.create({ memberId: newMember.id, roleId });
     }
+
     res.status(201).json(await memberService.getMemberById(newMember.id));
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 export const getAll = async (_req: Request, res: Response) => {
   try {
