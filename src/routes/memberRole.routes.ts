@@ -1,27 +1,17 @@
 import express from 'express';
-import { assignRoleToMember, 
-         getAllMemberRoles, 
-         removeRoleFromMember, 
-         getRolesForMember, 
-         updateMemberRole,  
-         getAllRolesWithMembers, 
-         getMembersForRole,
-         assignMemberToRole,
-         removeMemberFromRole,
-         updateMemberForRole } from '../controllers/memberRole.controller';
+import * as MemberRoleController from '../controllers/memberRole.controller';
 
 const router = express.Router();
 
-router.post('/assign', assignRoleToMember); 
-router.get('/', getAllMemberRoles); 
-router.delete('/remove', removeRoleFromMember)
-router.get('/:memberId/roles', getRolesForMember);
-router.put('/update', updateMemberRole);
-router.get('/with-members', getAllRolesWithMembers);
-router.get('/:roleId/members', getMembersForRole);
-router.post('/assign-member', assignMemberToRole);
-router.delete('/remove-member', removeMemberFromRole);
-router.put('/update-member', updateMemberForRole);
-
+router.post('/assign', MemberRoleController.assignRoleToMember);
+router.get('/', MemberRoleController.getAllMemberRoles);
+router.get('/:memberId/roles', MemberRoleController.getRolesForMember);
+router.delete('/remove', MemberRoleController.removeRoleFromMember);
+router.put('/update', MemberRoleController.updateMemberRole);
+router.get('/with-members', MemberRoleController.getAllRolesWithMembers);
+router.get('/:roleId/members', MemberRoleController.getMembersForRole);
+router.post('/assign-member', MemberRoleController.assignMemberToRole);
+router.delete('/remove-member', MemberRoleController.removeMemberFromRole);
+router.put('/update-member', MemberRoleController.updateMemberForRole);
 
 export default router;

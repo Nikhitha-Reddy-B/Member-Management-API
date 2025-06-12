@@ -9,23 +9,22 @@ import sequelize from '../config/db';
 import Member from './member.model';
 
 class Role extends Model {
-  public id!: string;
+  public id!: number;
   public name!: string;
   public description!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Sequelize mixin methods for many-to-many Member association
-  public addMember!: BelongsToManyAddAssociationMixin<Member, string>;
-  public removeMember!: BelongsToManyRemoveAssociationMixin<Member, string>;
+  public addMember!: BelongsToManyAddAssociationMixin<Member, number>;
+  public removeMember!: BelongsToManyRemoveAssociationMixin<Member, number>;
   public getMembers!: BelongsToManyGetAssociationsMixin<Member>;
 }
 
 Role.init(
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
     name: {

@@ -1,14 +1,14 @@
 export interface MemberAttributes {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  password: string
+  password: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface RoleAttributes {
-  id: string;
+  id: number;
   name: string;
   description: string;
   createdAt: Date;
@@ -16,6 +16,6 @@ export interface RoleAttributes {
 }
 
 export interface MemberRoleAttributes {
-  memberId: string;
-  roleId: string;
+  memberId: number;
+  roleId: number;
 }

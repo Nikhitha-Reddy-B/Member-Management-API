@@ -9,23 +9,23 @@ import sequelize from '../config/db';
 import Role from './role.model';
 
 class Member extends Model {
-  public id!: string;
+  public id!: number;
   public name!: string;
   public email!: string;
   public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public addRole!: BelongsToManyAddAssociationMixin<Role, string>;
-  public removeRole!: BelongsToManyRemoveAssociationMixin<Role, string>;
+  public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
+  public removeRole!: BelongsToManyRemoveAssociationMixin<Role, number>;
   public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
 }
 
 Member.init(
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
     name: {

@@ -20,7 +20,9 @@ export const memberSchema = Joi.object({
     'any.required': `"password" is a required field`
   }),
 
-  roleId: Joi.string().guid({ version: 'uuidv4' }).optional().messages({
-    'string.guid': `"roleId" must be a valid UUIDv4`
+  roleId: Joi.number().integer().positive().optional().messages({
+    'number.base': `"roleId" must be a number`,
+    'number.integer': `"roleId" must be an integer`,
+    'number.positive': `"roleId" must be a positive number`
   })
 });

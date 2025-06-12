@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Joi from 'joi';
 import { roleSchema } from '../validations/role.schema';
-import { uuidSchema } from '../validations/uuid.schema';
+import { idSchema } from '../validations/id.schema';
 import * as roleService from '../services/role.service';
 import MemberRole from '../models/memberRole.model';
 
@@ -32,7 +32,7 @@ export const getAll = async (_req: Request, res: Response) => {
 };
 
 export const getById = async (req: Request, res: Response) => {
-  const { error } = uuidSchema.validate(req.params.id);
+  const { error } = idSchema.validate(req.params.id);
   if (error) {
     return res.status(400).json({
       errors: error.details.map((detail: Joi.ValidationErrorItem) => detail.message),
@@ -40,7 +40,7 @@ export const getById = async (req: Request, res: Response) => {
   }
 
   try {
-    const role = await roleService.getRoleById(req.params.id);
+    const role = await roleService.getRoleById(Number(req.params.id));
     if (!role) return res.status(404).send('Role not found');
     res.json(role);
   } catch (err: any) {
@@ -49,7 +49,7 @@ export const getById = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  const { error: idError } = uuidSchema.validate(req.params.id);
+  const { error: idError } = idSchema.validate(req.params.id);
   if (idError) {
     return res.status(400).json({
       errors: idError.details.map((detail: Joi.ValidationErrorItem) => detail.message),
@@ -65,7 +65,7 @@ export const update = async (req: Request, res: Response) => {
 
   try {
     const { name, description } = req.body;
-    const updated = await roleService.updateRole(req.params.id, name, description);
+    const updated = await roleService.updateRole(Number(req.params.id), name, description);
     if (!updated) return res.status(404).send('Role not found');
     res.json(updated);
   } catch (err: any) {
@@ -74,7 +74,7 @@ export const update = async (req: Request, res: Response) => {
 };
 
 export const remove = async (req: Request, res: Response) => {
-  const { error } = uuidSchema.validate(req.params.id);
+  const { error } = idSchema.validate(req.params.id);
   if (error) {
     return res.status(400).json({
       errors: error.details.map((detail: Joi.ValidationErrorItem) => detail.message),
@@ -83,7 +83,7 @@ export const remove = async (req: Request, res: Response) => {
 
   try {
     await MemberRole.destroy({ where: { roleId: req.params.id } });
-    const deleted = await roleService.deleteRole(req.params.id);
+    const deleted = await roleService.deleteRole(Number(req.params.id));
     if (!deleted) return res.status(404).send('Role not found');
     res.send(`Role with id ${req.params.id} deleted`);
   } catch (err: any) {

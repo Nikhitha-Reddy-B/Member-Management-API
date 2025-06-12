@@ -10,18 +10,18 @@ export const getAllMembers = async () => {
   return await Member.findAll();
 };
 
-export const getMemberById = async (id: string) => {
-  return await Member.findByPk(id);
+export const getMemberById = async (id: number) => {
+  return await Member.findOne({ where: { id } });
 };
 
-export const updateMember = async (id: string, name: string, email: string) => {
-  const member = await Member.findByPk(id);
+export const updateMember = async (id: number, name: string, email: string) => {
+  const member = await Member.findOne({ where: { id } });
   if (!member) return null;
 
   await member.update({ name, email });
   return member;
 };
 
-export const deleteMember = async (id: string) => {
+export const deleteMember = async (id: number) => {
   return await Member.destroy({ where: { id } });
 };

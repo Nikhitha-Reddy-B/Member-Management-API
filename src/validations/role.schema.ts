@@ -8,7 +8,7 @@ export const roleSchema = Joi.object({
     'any.required': `"name" is a required field`
   }),
   description: Joi.string().optional().allow('').invalid(null).messages({
-  'string.base': `"description" should be a type of 'text'`,
-  'any.invalid': `"description" cannot be null`
-})
+    'string.base': `"description" should be a type of 'text'`,
+    'any.invalid': `"description" cannot be null`
+  })
 });

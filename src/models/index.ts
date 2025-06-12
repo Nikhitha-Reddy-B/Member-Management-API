@@ -7,6 +7,7 @@ Member.belongsToMany(Role, {
   foreignKey: 'memberId',
   otherKey: 'roleId',
   onDelete: 'CASCADE',
+  as: 'roles',
 });
 
 Role.belongsToMany(Member, {
@@ -14,6 +15,7 @@ Role.belongsToMany(Member, {
   foreignKey: 'roleId',
   otherKey: 'memberId',
   onDelete: 'CASCADE',
+  as: 'members',
 });
 
 export { Member, Role, MemberRole };
