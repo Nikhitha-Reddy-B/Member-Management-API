@@ -1,13 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { Permissions } from '../constants/permissions';
-import { MemberPayload } from '../types/memberPayload'; // Make sure this file exists
-/*
-if (!process.env.JWT_SECRET) {
-  console.error("FATAL ERROR: JWT_SECRET is not defined.");
-  process.exit(1);
-} // Consider adding this check at application startup (e.g., in src/index.ts) instead of here.
-*/
+import { MemberPayload } from '../types/memberPayload'; 
+
 const JWT_SECRET = process.env.JWT_SECRET || 'secretkey';
 
 export const authorize =
