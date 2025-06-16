@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 import Member from './member.model';
 import Role from './role.model';
-import { MemberRoleAttributes } from '../types';
+import { MemberRoleAttributes } from '../types/models';
 
 class MemberRole extends Model<MemberRoleAttributes> implements MemberRoleAttributes {
   public memberId!: number;
