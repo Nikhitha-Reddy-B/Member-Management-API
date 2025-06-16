@@ -15,6 +15,8 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - TypeScript for type safety
 - Clean folder structure 
 - JWT-based login API for authentication
+- Role-based authorization using middleware to restrict access
+  based on user roles (Super Admin, Admin, User)
 ---
 
 ##  Tech Stack
@@ -31,19 +33,21 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 
 ```
 ├── src/
-│ ├── config/              # Database configuration
-│ ├── controllers/         # Express route handlers
-│ ├── models/              # Sequelize models (Member, Role, MemberRole)
-│ ├── routes/              # API route definitions
-│ ├── services/            # Business logic (optional)
-│ ├── types/               # Type definitions (if any)
-│ ├── validations/         # Joi schemas and validation logic
-│ ├── watch.ts             # Watcher entry file for node-watch
-│ └── index.ts             # Application entry point
-├── .env                   # Environment variables
-├── package.json           # Scripts and dependencies
-├── tsconfig.json          # TypeScript compiler options
-├── .gitignore             # Git ignore rules
+│   ├── config/              # Database configuration
+│   ├── constants/           # Permission objects
+│   ├── controllers/         # Express route handlers
+│   ├── middleware/          # authorization middleware
+│   ├── models/              # Sequelize models (Member, Role, MemberRole)
+│   ├── routes/              # API route definitions
+│   ├── services/            # Business logic (optional)
+│   ├── types/               # Type definitions (interfaces, payloads, etc.)
+│   ├── validations/         # Joi schemas and validation logic
+│   ├── watch.ts             # Watcher entry file for node-watch
+│   └── index.ts             # Application entry point
+├── .env                     # Environment variables
+├── package.json             # Scripts and dependencies
+├── tsconfig.json            # TypeScript compiler options
+├── .gitignore               # Git ignore rules
 ```
 
 ## Installation
