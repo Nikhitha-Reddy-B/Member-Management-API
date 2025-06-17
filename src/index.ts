@@ -5,6 +5,8 @@ import memberRoutes from './routes/member.routes';
 import roleRoutes from './routes/role.routes';
 import memberRoleRoutes from './routes/memberRole.routes';
 import authRoutes from './routes/auth.routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
 import './models';
 
 dotenv.config();
@@ -12,8 +14,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.get('/', (req, res) => {
-  res.send('Welcome to the Member Management API. Visit /members or /roles');
+  res.send('Welcome to the Member Management API. Visit /api-docs for Swagger docs.');
 });
 
 app.use('/members', memberRoutes);
@@ -24,13 +28,14 @@ app.use('/api/auth', authRoutes);
 async function start() {
   try {
     await sequelize.sync({ alter: true });
-    console.log('Database synced');
+    console.log('✅ Database synced');
 
     app.listen(4000, () => {
-      console.log(`Server running on http://localhost:4000}`);
+      console.log('🚀 Server running at http://localhost:4000');
+      console.log('📚 Swagger docs available at http://localhost:4000/api-docs');
     });
   } catch (error) {
-    console.error('Error starting server:', error);
+    console.error('❌ Error starting server:', error);
   }
 }
 

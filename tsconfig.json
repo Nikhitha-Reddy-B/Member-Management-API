@@ -5,6 +5,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node"],
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
