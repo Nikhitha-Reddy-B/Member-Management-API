@@ -49,16 +49,23 @@ export const searchMembers = async (filters: any) => {
   if (filters.username) {
     whereClause.username = { [Op.iLike]: `%${filters.username}%` };
   }
+
   if (filters.email) {
     whereClause.email = { [Op.iLike]: `%${filters.email}%` };
   }
+
   if (filters.phone) {
-    whereClause.phone = { [Op.iLike]: `%${filters.phone}%` };
+    whereClause.phone = { [Op.iLike]: `${filters.phone}%` };
   }
+
   if (filters.isActive !== undefined) {
     whereClause.isActive = filters.isActive === 'true';
   }
 
-  return Member.findAll({ where: whereClause });
-};
+  const sortOrder = filters.sort?.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
+  return Member.findAll({
+    where: whereClause,
+    order: [['updatedAt', sortOrder]],
+  });
+};
