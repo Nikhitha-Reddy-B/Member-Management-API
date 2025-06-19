@@ -1,8 +1,12 @@
 export interface MemberAttributes {
   id: number;
   name: string;
+  username: string;
   email: string;
+  phone: string;
+  profilePicture?: string;
   password: string;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

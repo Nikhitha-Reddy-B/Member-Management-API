@@ -5,14 +5,16 @@ import * as memberService from '../services/member.service';
 import MemberRole from '../models/memberRole.model';
 import bcrypt from 'bcrypt';
 
+
 export const create = async (req: Request, res: Response) => {
   const { error } = memberSchema.validate(req.body, { abortEarly: false });
   if (error) return res.status(400).json({ errors: error.details.map(d => d.message) });
 
   try {
-    const { name, email, password, roleId } = req.body;
+    const { name, email, password, username, phone, isActive = true, profilePicture, roleId } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newMember = await memberService.createMember(name, email, hashedPassword);
+
+    const newMember = await memberService.createMember(name, email, hashedPassword, username, phone, isActive, profilePicture);
 
     if (roleId) {
       await MemberRole.create({ memberId: newMember.id, roleId });
@@ -54,8 +56,17 @@ export const update = async (req: Request, res: Response) => {
   if (bodyError) return res.status(400).json({ errors: bodyError.details.map(d => d.message) });
 
   try {
-    const { name, email, roleId } = req.body;
-    const updated = await memberService.updateMember(Number(req.params.id), name, email);
+    const { name, email, username, phone, isActive, profilePicture, roleId } = req.body;
+
+    const updated = await memberService.updateMember(
+      Number(req.params.id),
+      name,
+      email,
+      username,
+      phone,
+      isActive,
+      profilePicture
+    );
     if (!updated) return res.status(404).send('Member not found');
 
     if (roleId) {
@@ -79,6 +90,15 @@ export const remove = async (req: Request, res: Response) => {
     const deleted = await memberService.deleteMember(Number(req.params.id));
     if (!deleted) return res.status(404).send('Member not found');
     res.send(`Member with id ${req.params.id} deleted`);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const searchMembers = async (req: Request, res: Response) => {
+  try {
+    const members = await memberService.searchMembers(req.query);
+    res.json(members);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
