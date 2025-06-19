@@ -6,7 +6,7 @@ import roleRoutes from './routes/role.routes';
 import memberRoleRoutes from './routes/memberRole.routes';
 import authRoutes from './routes/auth.routes';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './config/swagger';
+import swaggerDocument from '../swagger.json'; 
 import './models';
 
 dotenv.config();
@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Member Management API. Visit /api-docs for Swagger docs.');
