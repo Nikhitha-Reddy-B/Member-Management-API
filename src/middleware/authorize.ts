@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Permissions } from '../constants/permissions';
-import { MemberPayload } from '../types/memberPayload'; 
+import { MemberPayload } from '../types/memberPayload';
+import Role from '../models/role.model';
+import Permission from '../models/permissions.model';
+import Member from '../models/member.model';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secretkey';
 
 export const authorize =
   (resource: 'roles' | 'members', action: 'create' | 'read' | 'update' | 'delete') =>
-  (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -18,21 +20,37 @@ export const authorize =
 
     try {
       const decoded = jwt.verify(token, JWT_SECRET) as MemberPayload;
-      const memberRoles: string[] = decoded.roles;
 
-      const hasPermission = memberRoles.some((role) => {
-        const roleKey = role.replace(/\s+/g, '_').toUpperCase();
-        const permissionsForRole = Permissions[roleKey as keyof typeof Permissions];
-        return permissionsForRole?.[resource]?.includes(action);
+      const member = await Member.findByPk(decoded.id);
+      if (!member) {
+        return res.status(401).json({ error: 'Member no longer exists' });
+      }
+
+      const memberRoles = decoded.roles;
+      const requiredPermission = `${resource}:${action}`.toLowerCase();
+
+      const permissions = await Permission.findAll({
+        include: [
+          {
+            model: Role,
+            as: 'roles',
+            where: { name: memberRoles },
+            through: { attributes: [] },
+          },
+        ],
       });
 
-      if (!hasPermission) {
+      const allowed = permissions.some(
+        (perm) => `${perm.resource}:${perm.action}`.toLowerCase() === requiredPermission
+      );
+
+      if (!allowed) {
         return res.status(403).json({ error: 'Access denied: insufficient permissions' });
       }
 
       res.locals.member = decoded;
       next();
     } catch (err) {
-      return res.status(401).json({ error: 'Invalid token' });
+      return res.status(401).json({ error: 'Invalid or expired token' });
     }
   };

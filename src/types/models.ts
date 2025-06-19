@@ -19,3 +19,14 @@ export interface MemberRoleAttributes {
   memberId: number;
   roleId: number;
 }
+
+export interface PermissionAttributes {
+  id: number;
+  resource: string;
+  action: string;
+}
+
+export interface RolePermissionAttributes {
+  roleId: number;
+  permissionId: number;
+}
