@@ -17,6 +17,7 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - JWT-based login API for authentication
 - Role-based authorization using middleware to restrict access
   based on user roles (Super Admin, Admin, User)
+- API documentation using Swagger (OpenAPI) 
 ---
 
 ##  Tech Stack
@@ -34,9 +35,8 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 ```
 ├── src/
 │   ├── config/              # Database configuration
-│   ├── constants/           # Permission objects
 │   ├── controllers/         # Express route handlers
-│   ├── middleware/          # authorization middleware
+│   ├── middleware/          # Authorization middleware
 │   ├── models/              # Sequelize models (Member, Role, MemberRole)
 │   ├── routes/              # API route definitions
 │   ├── services/            # Business logic (optional)
@@ -46,8 +46,10 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 │   └── index.ts             # Application entry point
 ├── .env                     # Environment variables
 ├── package.json             # Scripts and dependencies
+├── swagger.json             # Swagger API documentation
 ├── tsconfig.json            # TypeScript compiler options
 ├── .gitignore               # Git ignore rules
+
 ```
 
 ## Installation
@@ -81,6 +83,8 @@ npm run watch
 The server will be running on:
 
 ```bash
-http://localhost:3000
+http://localhost:4000
 ```
-You can now access the API endpoints (e.g., /members) at this address.
+- You can now access the API endpoints (e.g., /members) at this address.
+- You can now access the API documentation at /api-docs at this address.
+
