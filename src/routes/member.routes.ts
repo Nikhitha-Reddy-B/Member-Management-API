@@ -4,7 +4,6 @@ import { authorize } from '../middleware/authorize';
 
 const router = express.Router();
 
-router.get('/search', authorize('members', 'read'), memberController.searchMembers);
 router.get('/', authorize('members', 'read'), memberController.getAll);
 router.get('/:id', authorize('members', 'read'), memberController.getById);
 router.post('/', authorize('members', 'create'), memberController.create);

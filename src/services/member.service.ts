@@ -15,10 +15,6 @@ export const createMember = async (
   return await Member.create({ name, email, password, username, phone, isActive, profilePicture });
 };
 
-export const getAllMembers = async () => {
-  return await Member.findAll();
-};
-
 export const getMemberById = async (id: number) => {
   return await Member.findOne({ where: { id } });
 };

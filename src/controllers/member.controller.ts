@@ -26,9 +26,10 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-export const getAll = async (_req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
   try {
-    const members = await memberService.getAllMembers();
+    const filters = req.query;
+    const members = await memberService.searchMembers(filters);
     res.json(members);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -95,11 +96,3 @@ export const remove = async (req: Request, res: Response) => {
   }
 };
 
-export const searchMembers = async (req: Request, res: Response) => {
-  try {
-    const members = await memberService.searchMembers(req.query);
-    res.json(members);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
-};
