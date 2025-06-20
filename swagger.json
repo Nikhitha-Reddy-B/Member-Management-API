@@ -28,6 +28,9 @@
     "/api/auth/login": {
       "post": {
         "summary": "Login a member",
+        "security": [
+          {}
+        ],
         "tags": [
           "Auth"
         ],
@@ -67,20 +70,17 @@
     "/api/auth/register": {
       "post": {
         "summary": "Register a new member",
-        "tags": [
-          "Auth"
+        "security": [
+          {}
         ],
+        "tags": ["Auth"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
+                "required": ["name", "email", "password"],
                 "properties": {
                   "name": {
                     "type": "string"
@@ -91,6 +91,19 @@
                   },
                   "password": {
                     "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "profilePicture": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 }
               }
@@ -110,14 +123,8 @@
     "/members": {
       "get": {
         "summary": "Get all members",
-        "tags": [
-          "Members"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "List of members"
@@ -126,36 +133,23 @@
       },
       "post": {
         "summary": "Create a new member",
-        "tags": [
-          "Members"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
+                "required": ["name", "email", "password"],
                 "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
+                  "name": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" },
+                  "username": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "isActive": { "type": "boolean" },
+                  "profilePicture": { "type": "string", "format": "uri" }
                 }
               }
             }
@@ -171,55 +165,75 @@
         }
       }
     },
-    "/members/{id}": {
+    "/members/search": {
       "get": {
-        "summary": "Get a member by ID",
-        "tags": [
-          "Members"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "summary": "Search members based on filters",
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
+            "in": "query",
+            "name": "username",
             "schema": {
               "type": "string"
             },
-            "description": "Member ID"
+            "description": "Filter by username (case-insensitive, partial match)"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by email (case-insensitive, partial match)"
+          },
+          {
+            "in": "query",
+            "name": "phone",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by phone (prefix match)"
+          },
+          {
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by active status (true or false)"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sort order for 'updatedAt' field (asc or desc, defaults to desc)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Member found"
+            "description": "A list of members matching the search criteria"
           },
-          "404": {
-            "description": "Member not found"
+          "400": {
+            "description": "Invalid filter parameters"
           }
         }
-      },
+      }
+    },
+    "/members/{id}": {
       "put": {
         "summary": "Update an existing member",
-        "tags": [
-          "Members"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "description": "Member ID"
           }
         ],
@@ -230,15 +244,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "username": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "isActive": { "type": "boolean" },
+                  "profilePicture": { "type": "string", "format": "uri" }
                 }
               }
             }
@@ -253,24 +265,38 @@
           }
         }
       },
-      "delete": {
-        "summary": "Delete a member",
-        "tags": [
-          "Members"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+      "get": {
+        "summary": "Get a member by ID",
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
+            "description": "Member ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member found"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a member",
+        "tags": ["Members"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
             "description": "Member ID"
           }
         ],
@@ -773,21 +799,21 @@
     }
   },
   "tags": [
-    {
-      "name": "Auth",
-      "description": "Authentication endpoints"
-    },
-    {
-      "name": "Members",
-      "description": "Member management endpoints"
-    },
-    {
-      "name": "MemberRoles",
-      "description": "APIs for managing member-role relationships"
-    },
-    {
-      "name": "Roles",
-      "description": "Role management endpoints"
-    }
-  ]
+      {
+        "name": "Auth",
+        "description": "Authentication endpoints"
+      },
+      {
+        "name": "Members",
+        "description": "Member management endpoints"
+      },
+      {
+        "name": "MemberRoles",
+        "description": "APIs for managing member-role relationships"
+      },
+      {
+        "name": "Roles",
+        "description": "Role management endpoints"
+      }
+    ]
 }
