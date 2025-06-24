@@ -1,4 +1,4 @@
-# Task2
+# Member Management API
 
 A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for managing Members and Roles with many-to-many relationships.
 
