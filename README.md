@@ -54,8 +54,6 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 ├── swagger.json             # Swagger API documentation
 ├── tsconfig.json            # TypeScript compiler options
 ├── .gitignore               # Git ignore rules
-
-
 ```
 
 ## Installation
