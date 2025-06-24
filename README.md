@@ -17,7 +17,8 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - JWT-based login API for authentication
 - Role-based authorization using middleware to restrict access
   based on user roles (Super Admin, Admin, User)
-- API documentation using Swagger (OpenAPI) 
+- API documentation using Swagger (OpenAPI)
+- Unit testing implemented using Jest to validate service layer logic with mocked Sequelize  models
 ---
 
 ##  Tech Stack
@@ -27,7 +28,8 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - TypeScript
 - Sequelize
 - PostgreSQL
-- node-watch 
+- node-watch
+- Jest
 
 ---
 ##  Project Structure
@@ -39,16 +41,20 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 │   ├── middleware/          # Authorization middleware
 │   ├── models/              # Sequelize models (Member, Role, MemberRole)
 │   ├── routes/              # API route definitions
-│   ├── services/            # Business logic (optional)
+│   ├── services/            # Business logic
 │   ├── types/               # Type definitions (interfaces, payloads, etc.)
 │   ├── validations/         # Joi schemas and validation logic
 │   ├── watch.ts             # Watcher entry file for node-watch
 │   └── index.ts             # Application entry point
+├── tests/                   # Unit tests written with Jest
+│   └── services/            # Test cases for service layer (roles, members)
+├── jest.config.js           # Jest configuration
 ├── .env                     # Environment variables
 ├── package.json             # Scripts and dependencies
 ├── swagger.json             # Swagger API documentation
 ├── tsconfig.json            # TypeScript compiler options
 ├── .gitignore               # Git ignore rules
+
 
 ```
 
