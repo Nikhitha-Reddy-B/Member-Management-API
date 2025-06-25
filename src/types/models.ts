@@ -4,7 +4,7 @@ export interface MemberAttributes {
   username: string;
   email: string;
   phone: string;
-  profilePicture?: string;
+  profilePicture: string;
   password: string;
   isActive: boolean;
   createdAt: Date;
@@ -34,3 +34,28 @@ export interface RolePermissionAttributes {
   roleId: number;
   permissionId: number;
 }
+
+export interface TaskAttributes {
+  id: number;
+  title: string;
+  description: string;
+  status: 'todo' | 'inprogress' | 'done';
+  assignee: number;      
+  reporter: number;      
+  startDate: Date;
+  endDate: Date;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+export interface TaskFilterOptions {
+  assigneeName?: string;
+  reporterName?: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+  sortBy?: string;
+  order?: 'asc' | 'desc';
+}
+

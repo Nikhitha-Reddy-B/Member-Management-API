@@ -3,7 +3,7 @@
   "info": {
     "title": "Member Management API",
     "version": "1.0.0",
-    "description": "API for managing members, roles, and permissions"
+    "description": "API for managing members, roles, permissions and tasks"
   },
   "servers": [
     {
@@ -785,6 +785,181 @@
           }
         }
       }
+    },
+    "/tasks": {
+       "get": {
+    "summary": "Get all tasks",
+    "tags": ["Tasks"],
+    "parameters": [
+      {
+        "name": "assigneeName",
+        "in": "query",
+        "schema": { "type": "string" },
+        "description": "Filter tasks by assignee name (partial match)"
+      },
+      {
+        "name": "reporterName",
+        "in": "query",
+        "schema": { "type": "string" },
+        "description": "Filter tasks by reporter name (partial match)"
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["todo", "inprogress", "done"]
+        },
+        "description": "Filter tasks by status"
+      },
+      {
+        "name": "startDate",
+        "in": "query",
+        "schema": { "type": "string", "format": "date" },
+        "description": "Filter tasks starting from this date (inclusive)"
+      },
+      {
+        "name": "endDate",
+        "in": "query",
+        "schema": { "type": "string", "format": "date" },
+        "description": "Filter tasks ending on this date (inclusive)"
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["created_at", "updated_at", "startDate", "endDate"]
+        },
+        "description": "Field to sort by"
+      },
+      {
+        "name": "order",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["asc", "desc"]
+        },
+        "description": "Sort order"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of tasks",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+      "post": {
+        "summary": "Create a new task",
+        "tags": ["Tasks"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "description", "status", "assignee", "reporter"],
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "status": { "type": "string", "enum": ["todo", "inprogress", "done"] },
+                  "assignee": { "type": "integer" },
+                  "reporter": { "type": "integer" },
+                  "startDate": { "type": "string", "format": "date-time" },
+                  "endDate": { "type": "string", "format": "date-time" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "summary": "Get task by ID",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Task found" },
+          "404": { "description": "Task not found" }
+        }
+      },
+      "put": {
+        "summary": "Update a task",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "status": { "type": "string", "enum": ["todo", "inprogress", "done"] },
+                  "assignee": { "type": "integer" },
+                  "reporter": { "type": "integer" },
+                  "startDate": { "type": "string", "format": "date-time" },
+                  "endDate": { "type": "string", "format": "date-time" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Task updated" },
+          "404": { "description": "Task not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a task",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Task deleted" },
+          "404": { "description": "Task not found" }
+        }
+      }
     }
   },
   "tags": [
@@ -803,6 +978,10 @@
       {
         "name": "Roles",
         "description": "Role management endpoints"
+      },
+       {
+      "name": "Tasks",
+      "description": "Task management endpoints"
       }
     ]
 }

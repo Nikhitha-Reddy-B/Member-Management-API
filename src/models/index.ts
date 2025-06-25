@@ -3,6 +3,7 @@ import Role from './role.model';
 import MemberRole from './memberRole.model';
 import Permission from './permissions.model';
 import RolePermission from './rolePermissions.model';
+import Task from './task.model';
 
 Member.belongsToMany(Role, {
   through: MemberRole,
@@ -36,4 +37,26 @@ Permission.belongsToMany(Role, {
   as: 'roles',
 });
 
-export { Member, Role, MemberRole, Permission, RolePermission };
+Task.belongsTo(Member, {
+  foreignKey: 'assignee',
+  as: 'assigneeDetails'
+});
+
+Task.belongsTo(Member, {
+  foreignKey: 'reporter',
+  as: 'reporterDetails'
+});
+
+Member.hasMany(Task, {
+  foreignKey: 'assignee',
+  as: 'assignedTasks'
+});
+
+Member.hasMany(Task, {
+  foreignKey: 'reporter',
+  as: 'reportedTasks'
+});
+
+
+
+export { Member, Role, MemberRole, Permission, RolePermission, Task };
