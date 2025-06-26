@@ -188,7 +188,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name", "email", "password"],
+                "required": ["name", "email", "password", "username", "phone", "isActive"],
                 "properties": {
                   "name": { "type": "string" },
                   "email": { "type": "string", "format": "email" },
@@ -196,7 +196,7 @@
                   "username": { "type": "string" },
                   "phone": { "type": "string" },
                   "isActive": { "type": "boolean" },
-                  "profilePicture": { "type": "string", "format": "uri" }
+                  "profilePicture": { "type": "string", "format": "uri", "nullable": true }
                 }
               }
             }
@@ -212,6 +212,55 @@
         }
       }
     },
+    "/members/{id}/profile-picture": {
+  "post": {
+    "summary": "Upload or update profile picture for a member",
+    "tags": ["Members"],
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Member ID"
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Image file (jpeg, png, jpg)"
+              }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Photo uploaded successfully"
+      },
+      "400": {
+        "description": "No file uploaded"
+      },
+      "404": {
+        "description": "Member not found"
+      },
+      "500": {
+        "description": "Internal server error"
+      }
+    }
+  }
+},
+
     "/members/{id}": {
       "put": {
         "summary": "Update an existing member",

@@ -34,3 +34,5 @@ build/
 # Test Coverage
 # ========================
 coverage/
+
+uploads/

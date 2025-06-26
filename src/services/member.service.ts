@@ -7,8 +7,8 @@ export const createMember = async (
   name: string,
   email: string,
   password: string,
-  username?: string,
-  phone?: string,
+  username: string,
+  phone: string,
   isActive: boolean = true,
   profilePicture?: string
 ) => {
