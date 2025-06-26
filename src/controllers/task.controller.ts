@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as taskService from '../services/task.service';
 import { TaskFilterOptions } from '../types/models'; 
+import { ApiError } from '../utils/ApiError';
 
 export const createTask = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -39,13 +40,19 @@ export const updateTask = async (req: Request, res: Response): Promise<void> => 
   try {
     const id = Number(req.params.id);
     const updatedTask = await taskService.updateTask(id, req.body);
+
     if (!updatedTask) {
       res.status(404).json({ error: 'Task not found' });
       return;
     }
+
     res.status(200).json(updatedTask);
   } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
+    if (error instanceof ApiError) {
+      res.status(error.statusCode).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 };
 

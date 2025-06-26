@@ -3,6 +3,7 @@ import { TaskAttributes } from '../types/models';
 import Member from '../models/member.model';
 import { Op, WhereOptions } from 'sequelize';
 import { TaskFilterOptions } from '../types/models';
+import { ApiError } from '../utils/ApiError';
 
 export const createTask = async (data: TaskAttributes) => {
   return await Task.create(data);
@@ -24,9 +25,26 @@ export const getTaskById = async (id: number) => {
   });
 };
 
-export const updateTask = async (id: number, updates: Partial<TaskAttributes>) => {
+export const updateTask = async (
+  id: number,
+  updates: Partial<TaskAttributes>
+) => {
   const task = await Task.findOne({ where: { id } });
   if (!task) return null;
+
+  if (updates.assignee !== undefined) {
+    const assigneeExists = await Member.findOne({ where: { id: updates.assignee } });
+    if (!assigneeExists) {
+      throw new ApiError(`Assignee with ID ${updates.assignee} not found`, 404);
+    }
+  }
+
+  if (updates.reporter !== undefined) {
+    const reporterExists = await Member.findOne({ where: { id: updates.reporter } });
+    if (!reporterExists) {
+      throw new ApiError(`Reporter with ID ${updates.reporter} not found`, 404);
+    }
+  }
 
   await task.update(updates);
   return task;
