@@ -18,7 +18,9 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - Role-based authorization using middleware to restrict access
   based on user roles (Super Admin, Admin, User)
 - API documentation using Swagger (OpenAPI)
-- Unit testing implemented using Jest to validate service layer logic with mocked Sequelize  models
+- Unit testing implemented using Jest to validate service layer logic with mocked Sequeliz models
+- Task Management: Create, update, assign, and track tasks
+- Profile Picture Upload: Upload one profile photo per member (auto-compress if size > 25MB)
 ---
 
 ##  Tech Stack
@@ -44,6 +46,7 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 │   ├── services/            # Business logic
 │   ├── types/               # Type definitions (interfaces, payloads, etc.)
 │   ├── validations/         # Joi schemas and validation logic
+│   ├── utils/               # Utility functions (e.g., image compression)
 │   ├── watch.ts             # Watcher entry file for node-watch
 │   └── index.ts             # Application entry point
 ├── tests/                   # Unit tests written with Jest
@@ -79,6 +82,11 @@ JWT_SECRET=your_super_key
 
 ## Running locally
 
+To run the unit tests:
+
+```bash
+npm run test
+```
 To build and start the server:
 
 ```bash
