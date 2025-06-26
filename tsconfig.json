@@ -14,3 +14,8 @@
   },
   "include": ["src/**/*", "tests/**/*"]
 }
+
+//encountering an error in your tsconfig.json because of a mismatch between the 
+// configured "rootDir" and the files included in the build.
+//But you're also including files from "tests/**/*", which are outside the src directory.
+// TypeScript expects everything to be inside rootDir.
