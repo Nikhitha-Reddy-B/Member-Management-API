@@ -1,14 +1,10 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { memberSchema } from '../validations/member.schema';
 import { idSchema } from '../validations/id.schema';
 import * as memberService from '../services/member.service';
 import MemberRole from '../models/memberRole.model';
 import bcrypt from 'bcrypt';
-import path from 'path';
-import fs from 'fs';
-import upload from '../middleware/upload';
-import { compressImage } from '../utils/compressImage';
-import Member from '../models/member.model';
+import { ApiError } from '../utils/ApiError';
 
 
 export const create = async (req: Request, res: Response) => {
@@ -101,27 +97,27 @@ export const remove = async (req: Request, res: Response) => {
   }
 };
 
-export const uploadProfilePicture = async (req: Request, res: Response) => {
-  try {
+export const uploadProfilePicture = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try{
     const memberId = Number(req.params.id);
-    const member = await Member.findByPk(memberId);
-    if (!member) return res.status(404).json({ error: 'Member not found' });
 
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
-    const compressedPath = await compressImage(req.file.path);
-
-    // Delete old photo if exists
-    if (member.profilePicture) {
-      const oldPath = path.join(__dirname, '../../uploads', path.basename(member.profilePicture));
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    if(isNaN(memberId)){
+      throw new ApiError('Invalid member Id', 400);
     }
 
-    const filename = path.basename(compressedPath);
-    await member.update({ profilePicture: filename });
+    const filename = await memberService.handleProfilePictureUpload(memberId, req.file);
 
-    res.status(200).json({ message: 'Photo uploaded successfully', file: filename });
-  } catch (err) {
-    res.status(500).json({ error: (err as Error).message });
+    return res.status(200).json({
+      message: 'Photo uploaded successfully',
+      file: filename,
+    });
+  } catch(err) {
+    next(err);
   }
 };
+
+
