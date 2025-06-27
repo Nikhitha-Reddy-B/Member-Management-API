@@ -100,8 +100,7 @@ export const handleProfilePictureUpload = async(
    }
 
    const filename = path.basename(compressedPath);
-   member.profilePicture = filename;
-   await member.save();
+   await member.update({ profilePicture: filename });
 
    return filename;
 };
