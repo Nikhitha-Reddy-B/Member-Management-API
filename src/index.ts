@@ -12,6 +12,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 
 import './models';
+import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/roles', roleRoutes);
 app.use('/member_roles', memberRoleRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/tasks', taskRoutes);
+app.use(errorHandler);
 
 async function start() {
   try {
