@@ -1009,8 +1009,55 @@
           "404": { "description": "Task not found" }
         }
       }
+    },
+    "/exports/excel": {
+  "get": {
+    "tags": ["Exports"],
+    "summary": "Export data to Excel",
+    "description": "Export members, tasks, or all data (combined members and tasks) to an Excel file. Returns a downloadable file URL.",
+    "parameters": [
+      {
+        "name": "type",
+        "in": "query",
+        "description": "Type of export: members, tasks, or all",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["members", "tasks", "member_tasks"]
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Export successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string" },
+                "fileUrl": { "type": "string" }
+              }
+            },
+            "example": {
+              "message": "Export successful",
+              "fileUrl": "http://localhost:4040/exports/members_export_1720014892345.xlsx"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Missing or invalid type parameter"
+      },
+      "500": {
+        "description": "Failed to export data"
+      }
     }
-  },
+  }
+}
+},
+  
+
   "tags": [
       {
         "name": "Auth",
@@ -1031,6 +1078,10 @@
        {
       "name": "Tasks",
       "description": "Task management endpoints"
+      },
+      {
+      "name": "Exports",
+      "description": "Export members, tasks, or combined members and tasks data to an Excel file. Returns a downloadable file URL."
       }
     ]
 }
