@@ -1,6 +1,6 @@
-# Member Management API
+# Member Management & Task Export API
 
-A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for managing Members and Roles with many-to-many relationships.
+A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for managing Members, Roles, and Tasks, with additional support for exporting data to Excel using a dedicated gRPC-based microservice.
 
 ---
 
@@ -18,9 +18,10 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - Role-based authorization using middleware to restrict access
   based on user roles (Super Admin, Admin, User)
 - API documentation using Swagger (OpenAPI)
-- Unit testing implemented using Jest to validate service layer logic with mocked Sequeliz models
+- Unit testing implemented using Jest to validate service layer logic with mocked Sequelize models
 - Task Management: Create, update, assign, and track tasks
 - Profile Picture Upload: Upload one profile photo per member (auto-compress if size > 25MB)
+- Export data to Excel (Members, Tasks, Members with Tasks) using a separate gRPC export server
 ---
 
 ##  Tech Stack
@@ -32,7 +33,9 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 - PostgreSQL
 - node-watch
 - Jest
-
+- gRPC
+- ExcelJS
+  
 ---
 ##  Project Structure
 
@@ -49,6 +52,12 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 │   ├── utils/               # Utility functions (e.g., image compression)
 │   ├── watch.ts             # Watcher entry file for node-watch
 │   └── index.ts             # Application entry point
+├── export-server/           # Separate service for export (runs on different port)
+│   ├── types/               # Types and proto-related definitions for export server
+│   ├── service/             # Logic to generate Excel files
+│   ├── exports/             # Folder where generated Excel files are saved
+│   └── server.ts            # Entry point to start export gRPC server
+├── proto/                   # gRPC proto file that defines messages and service structure
 ├── tests/                   # Unit tests written with Jest
 │   └── services/            # Test cases for service layer (roles, members)
 ├── jest.config.js           # Jest configuration
@@ -62,8 +71,8 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 ## Installation
 
 ```bash
-git clone https://github.com/NikhithaReddy8/Quara-Task2.git
-cd Quara-Task2
+git clone https://github.com/NikhithaReddy8/Member-Management-API.git
+cd Member-Management-API
 npm install
 ```
 
@@ -87,7 +96,7 @@ To run the unit tests:
 ```bash
 npm run test
 ```
-To build and start the server:
+To build and start the main server:
 
 ```bash
 npm run watch
@@ -100,3 +109,23 @@ http://localhost:4000
 - You can now access the API endpoints (e.g., /members) at this address.
 - You can now access the API documentation at /api-docs at this address.
 
+If want to use the export feature:
+
+Add terminal, change the directory to the export-server folder:
+
+```bash
+cd export-server
+```
+
+Then start the export server:
+
+```bash
+npm run watch
+```
+
+The export server will run on:
+
+```bash
+http://localhost:4040
+```
+- After starting the export server, main server can handle export requests successfully.
