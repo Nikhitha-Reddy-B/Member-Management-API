@@ -36,3 +36,10 @@ build/
 coverage/
 
 uploads/
+
+# Ignore node_modules and .env
+export-server/node_modules/
+export-server/.env
+
+# Ignore generated exports folder
+export-server/exports/
