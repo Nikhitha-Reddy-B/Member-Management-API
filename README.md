@@ -71,7 +71,7 @@ A full-featured Node.js + Express + TypeScript + Sequelize + PostgreSQL API for 
 ## Installation
 
 ```bash
-git clone https://github.com/NikhithaReddy8/Member-Management-API.git
+git clone https://github.com/Nikhitha-Reddy-B/Member-Management-API.git
 cd Member-Management-API
 npm install
 ```
