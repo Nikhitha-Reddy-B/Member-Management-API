@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package export;
+
+service ExportService {
+    rpc ExportExcel (ExportRequest) returns (ExportExcelResponse);
+}
+
+message ExportRequest {
+    string type = 1; 
+}
+
+message ExportExcelResponse {
+    string fileUrl = 1; 
+}
