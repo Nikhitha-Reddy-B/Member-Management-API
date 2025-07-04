@@ -7,6 +7,7 @@ import roleRoutes from './routes/role.routes';
 import memberRoleRoutes from './routes/memberRole.routes';
 import authRoutes from './routes/auth.routes';
 import taskRoutes from './routes/task.routes';
+import exportRoutes from './routes/export.routes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
@@ -30,12 +31,13 @@ app.use('/roles', roleRoutes);
 app.use('/member_roles', memberRoleRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/tasks', taskRoutes);
+app.use('/exports', exportRoutes);
 app.use(errorHandler);
 
 async function start() {
   try {
     await sequelize.sync({ alter: true });
-    console.log('✅ Database synced');
+    console.log('Database synced');
 
     app.listen(4000, () => {
       console.log('Server running at http://localhost:4000');
