@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "rootDirs": [
+      "src",
+      "../../src"
+    ],
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".", 
+    "paths": {
+      "@models": ["../../src/models"],
+      "@models/*": ["../../src/models/*"]
+    }
+  },
+  "include": ["src/**/*", "../../src/models/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
