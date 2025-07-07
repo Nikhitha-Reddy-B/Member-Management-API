@@ -23,6 +23,7 @@ export const generateExcelFile = async (type: string): Promise<string> => {
       { header: 'Email', key: 'email', width: 25 },
       { header: 'Is Active', key: 'isActive', width: 12 },
       { header: 'Phone', key: 'phone', width: 15 },
+      { header: 'Profile Picture', key: 'profilePicture', width: 20},
     ];
 
     members.forEach((member) => {
@@ -33,6 +34,7 @@ export const generateExcelFile = async (type: string): Promise<string> => {
         email: member.email,
         isActive: member.isActive,
         phone: member.phone,
+        profilePicture: member.profilePicture,
       });
     });
 
@@ -89,6 +91,11 @@ export const generateExcelFile = async (type: string): Promise<string> => {
     worksheet.columns = [
       { header: 'Member ID', key: 'memberId', width: 12 },
       { header: 'Member Name', key: 'name', width: 20 },
+      { header: 'Email', key: 'email', width: 25},
+      { header: 'Phone', key: 'phone', width: 15},
+      { header: 'Is Active', key: 'isActive', width: 12},
+      { header: 'Profile Picture', key: 'profilePicture', width: 20},
+      { header: 'Task ID', key: 'taskId', width: 12},
       { header: 'Task Title', key: 'taskTitle', width: 25 },
       { header: 'Description', key: 'description', width: 30 },
       { header: 'Status', key: 'status', width: 15 },
@@ -102,6 +109,11 @@ export const generateExcelFile = async (type: string): Promise<string> => {
         worksheet.addRow({
           memberId: member.id,
           name: member.name,
+          email: member.email,
+          phone: member.phone,
+          isActive: member.isActive,
+          profilePicture: member.profilePicture,
+          taskId: task.id,
           taskTitle: task.title,
           description: task.description,
           status: task.status,
