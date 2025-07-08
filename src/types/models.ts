@@ -41,7 +41,7 @@ export interface TaskAttributes {
   description: string;
   status: 'todo' | 'inprogress' | 'done';
   assignee: number;      
-  reporter: number;      
+  reporter?: number;      
   startDate: Date;
   endDate: Date;
   created_at: Date;

@@ -33,11 +33,10 @@ export const taskSchema = Joi.object({
     'any.required': `"assignee" is required`
   }),
 
-  reporter: Joi.number().integer().positive().required().messages({
+  reporter: Joi.number().integer().positive().optional().messages({
     'number.base': `"reporter" must be a valid member ID`,
     'number.integer': `"reporter" must be an integer`,
-    'number.positive': `"reporter" must be positive`,
-    'any.required': `"reporter" is required`
+    'number.positive': `"reporter" must be positive`
   }),
 
   startDate: Joi.date().required().messages({

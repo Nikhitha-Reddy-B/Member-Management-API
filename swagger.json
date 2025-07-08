@@ -917,7 +917,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "description", "status", "assignee", "reporter"],
+                "required": ["title", "description", "status", "assignee"],
                 "properties": {
                   "title": { "type": "string" },
                   "description": { "type": "string" },

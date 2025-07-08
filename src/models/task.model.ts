@@ -8,7 +8,7 @@ export interface TaskAttributes {
   description: string;
   status: 'todo' | 'inprogress' | 'done';
   assignee: number;
-  reporter: number;
+  reporter?: number;
   startDate: Date;
   endDate: Date;
   created_at: Date;
@@ -22,7 +22,7 @@ class Task extends Model<TaskAttributes> implements TaskAttributes {
   public description!: string;
   public status!: 'todo' | 'inprogress' | 'done';
   public assignee!: number;
-  public reporter!: number;
+  public reporter?: number;
   public startDate!: Date;
   public endDate!: Date;
   public created_at!: Date;
@@ -68,7 +68,7 @@ Task.init(
     },
     reporter: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: Member,
         key: 'id',
