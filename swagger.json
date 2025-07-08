@@ -1122,7 +1122,81 @@
       }
     }
   }
+},
+"/uploads/upload-task-excel": {
+  "post": {
+    "tags": ["Uploads"],
+    "summary": "Upload Excel file and create tasks",
+    "description": "Uploads an Excel file containing task data. Valid tasks will be created and assigned to users based on phone number. Returns success and failure counts with reasons for failures.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Excel file containing tasks to upload"
+              }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Upload result with success and failure counts",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "File processed"
+                },
+                "successCount": {
+                  "type": "integer",
+                  "example": 80
+                },
+                "failureCount": {
+                  "type": "integer",
+                  "example": 20
+                },
+                "failedRows": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "rowNumber": {
+                        "type": "integer",
+                        "example": 15
+                      },
+                      "reason": {
+                        "type": "string",
+                        "example": "User not found for given phone number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing file"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
 }
+
 
 },
   
@@ -1154,7 +1228,7 @@
       },
       {
       "name": "Uploads",
-      "description": "Uploads data from excel to members table"
+      "description": "Uploads data from excel"
       }
     ]
 }

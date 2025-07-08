@@ -1,5 +1,5 @@
 import Task from '../models/task.model';
-import { TaskAttributes } from '../types/models';
+import { TaskCreationAttributes, TaskAttributes } from '../types/models';
 import Member from '../models/member.model';
 import { Op, WhereOptions } from 'sequelize';
 import { TaskFilterOptions } from '../types/models';

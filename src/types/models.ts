@@ -59,3 +59,14 @@ export interface TaskFilterOptions {
   order?: 'asc' | 'desc';
 }
 
+export interface TaskCreationAttributes {
+  title: string;
+  description: string;
+  status: 'todo' | 'inprogress' | 'done';
+  assignee: number;
+  reporter?: number;
+  startDate: Date;
+  endDate: Date;
+}
+
+
