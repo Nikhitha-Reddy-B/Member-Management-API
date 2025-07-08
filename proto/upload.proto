@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package upload;
+
+service UploadService {
+  rpc UploadExcel (UploadExcelRequest) returns (UploadExcelResponse);
+}
+
+message UploadExcelRequest {
+  bytes file = 1;
+}
+
+message UploadExcelResponse {
+  int32 successCount = 1;
+  int32 failureCount = 2;
+  repeated FailedRow failedRows = 3;
+}
+
+message FailedRow {
+  int32 rowNumber = 1;
+  string reason = 2;
+}

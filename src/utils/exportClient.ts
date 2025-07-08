@@ -12,10 +12,11 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   defaults: true,
   oneofs: true,
 });
-
 const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as unknown as ExportProtoClientType;
+console.log("Loaded methods from proto:", Object.keys(protoDescriptor.export.ExportService.service));
 
 export const exportClient = new protoDescriptor.export.ExportService(
   process.env.EXPORT_GRPC_URL || 'localhost:4040',
   grpc.credentials.createInsecure()
 );
+

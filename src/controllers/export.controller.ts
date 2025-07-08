@@ -15,12 +15,17 @@ export const exportExcel = (
     return;
   }
 
+  console.log('Calling ExportExcel with type:', type);
+  console.log('Available client methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(exportClient)));
+
   exportClient.ExportExcel({ type }, (err: ServiceError | null, response: ExportExcelResponse) => {
     if (err) {
       console.error('gRPC export error:', err);
-      res.status(500).json({ message: 'Failed to export data' });
+      res.status(500).json({ message: 'Failed to export data', grpcDetails: err.details, grpcCode: err.code });
       return;
     }
+
+    console.log('ExportExcel response:', response);
 
     res.status(200).json({
       message: 'Export successful',

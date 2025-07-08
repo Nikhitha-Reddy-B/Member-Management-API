@@ -1,7 +1,7 @@
 import express from 'express';
 import * as memberController from '../controllers/member.controller';
 import { authorize } from '../middleware/authorize';
-import upload from '../middleware/upload';
+import { upload } from '../middleware/upload';
 
 const router = express.Router();
 

@@ -3,29 +3,13 @@ syntax = "proto3";
 package export;
 
 service ExportService {
-    rpc ExportExcel (ExportRequest) returns (ExportExcelResponse);
-    rpc UploadExcel (UploadExcelRequest) returns (UploadExcelResponse)
+  rpc ExportExcel (ExportExcelRequest) returns (ExportExcelResponse);
 }
 
-message ExportRequest {
-    string type = 1; 
+message ExportExcelRequest {
+  string type = 1;
 }
 
 message ExportExcelResponse {
-    string fileUrl = 1; 
-}
-
-message UploadExcelRequest {
-    bytes file = 1;
-}
-
-message UploadExcelResponse {
-    int32 successCount = 1;
-    int32 errorCount = 2;
-    repeated FailedRow failedRows = 3;
-}
-
-message FailedRow {
-    int32 rowNumber = 1;
-    string reason = 2;
+  string fileUrl = 1;
 }

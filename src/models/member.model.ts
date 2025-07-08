@@ -39,6 +39,10 @@ Member.init(
         notEmpty: {
           msg: 'Name must not be empty',
         },
+        len: {
+          args: [3, 50],
+          msg: 'Name should be between 3 and 50 characters',
+        },
       },
     },
     username: {
@@ -48,6 +52,14 @@ Member.init(
       validate: {
         notEmpty: {
           msg: 'Username must not be empty',
+        },
+        len: {
+          args: [3, 30],
+          msg: 'Username should be between 3 and 30 characters',
+        },
+        is: {
+          args: /^[a-zA-Z0-9_.-]*$/i,
+          msg: 'Username can only contain letters, numbers, underscores, dots, and hyphens',
         },
       },
     },
@@ -62,20 +74,33 @@ Member.init(
         notEmpty: {
           msg: 'Email must not be empty',
         },
+        len: {
+          args: [5, 100],
+          msg: 'Email should be between 5 and 100 characters',
+        },
       },
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: 'Phone number must not be empty',
+        },
+        is: {
+          args: /^[0-9+\-() ]+$/i,
+          msg: 'Phone number can only contain numbers, spaces, and symbols (+, -, (, ))',
         },
       },
     },
     profilePicture: {
       type: DataTypes.STRING,
       allowNull: true,
+      validate: {
+        isUrl: {
+          msg: 'Profile picture must be a valid URL',
+        },
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -83,6 +108,10 @@ Member.init(
       validate: {
         notEmpty: {
           msg: 'Password must not be empty',
+        },
+        len: {
+          args: [8, 100],
+          msg: 'Password should have at least 8 characters',
         },
       },
     },
@@ -98,5 +127,6 @@ Member.init(
     timestamps: true,
   }
 );
+
 
 export default Member;

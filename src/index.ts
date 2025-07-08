@@ -8,6 +8,7 @@ import memberRoleRoutes from './routes/memberRole.routes';
 import authRoutes from './routes/auth.routes';
 import taskRoutes from './routes/task.routes';
 import exportRoutes from './routes/export.routes';
+import uploadRoutes from './routes/upload.routes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
@@ -32,6 +33,7 @@ app.use('/member_roles', memberRoleRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/tasks', taskRoutes);
 app.use('/exports', exportRoutes);
+app.use('/uploads', uploadRoutes);
 app.use(errorHandler);
 
 async function start() {

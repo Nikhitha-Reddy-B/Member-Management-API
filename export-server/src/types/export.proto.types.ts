@@ -8,7 +8,7 @@ export interface ExportServiceHandlers {
   ) => void;
 }
 
-export interface ExportProtoType {
+export interface ExportProtoServerType {
   export: {
     ExportService: {
       service: ServiceDefinition<ExportServiceHandlers>;

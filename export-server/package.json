@@ -15,7 +15,8 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.13.4",
     "@grpc/proto-loader": "^0.7.15",
-    "exceljs": "^4.4.0"
+    "exceljs": "^4.4.0",
+    "p-limit": "^6.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.10",

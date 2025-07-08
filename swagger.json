@@ -1054,7 +1054,76 @@
       }
     }
   }
+},
+  "/uploads/upload-excel": {
+  "post": {
+    "tags": ["Uploads"],
+    "summary": "Upload Excel file and insert members",
+    "description": "Uploads an Excel file containing member data and inserts valid rows into the database. Returns counts of successful and failed rows with reasons for failures.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Excel file to upload (xlsx)"
+              }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Upload result with success and failure counts",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "successCount": {
+                  "type": "integer"
+                },
+                "errorCount": {
+                  "type": "integer"
+                },
+                "failedRows": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "rowNumber": {
+                        "type": "integer"
+                      },
+                      "reason": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing file"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
 }
+
 },
   
 
@@ -1081,7 +1150,11 @@
       },
       {
       "name": "Exports",
-      "description": "Export members, tasks, or combined members and tasks data to an Excel file. Returns a downloadable file URL."
+      "description": "Export members, tasks, member_tasks data to an Excel file."
+      },
+      {
+      "name": "Uploads",
+      "description": "Uploads data from excel to members table"
       }
     ]
 }
