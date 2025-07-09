@@ -1,6 +1,7 @@
 import * as ExcelJS from 'exceljs';
 import { Member, Task } from '../../../src/models';
-import { UploadTaskExcelResponse, FailedRow } from '../types/uploadTaskExcel.types';
+import { UploadTaskExcelResponse, FailedRow } from '../types/upload.types';
+import { TaskCreationAttributes } from '../../../src/types/models';
 import type { CellValue } from 'exceljs';
 import { taskSchema } from '../../../src/validations/task.schema';
 
@@ -39,12 +40,12 @@ export const processUploadTaskExcel = async (buffer: Buffer): Promise<UploadTask
 
     try {
       if (!userPhone) {
-        throw new Error('User phone number is required');
+        throw new Error('Member phone number is required');
       }
 
       const member = await Member.findOne({ where: { phone: userPhone } });
       if (!member) {
-        throw new Error('User not found with given phone number');
+        throw new Error('Member not found with given phone number');
       }
 
       const taskData: TaskExcelData = {
@@ -81,7 +82,7 @@ export const processUploadTaskExcel = async (buffer: Buffer): Promise<UploadTask
         assignee: entry.data.assignee,
         startDate: entry.data.startDate,
         endDate: entry.data.endDate,
-      });
+      }as TaskCreationAttributes);
 
       successfullyInserted.push(entry.rowNumber);
     } catch (err) {

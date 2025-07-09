@@ -12,13 +12,14 @@ export const taskSchema = Joi.object({
   description: Joi.string().required().custom((value, helpers) => {
     const wordCount = value.trim().split(/\s+/).length;
     if (wordCount > 300) {
-      return helpers.error('any.custom', { message: 'Description must not exceed 300 words' });
+      return helpers.error('description.maxWords');
     }
     return value;
   }).messages({
     'string.base': `"description" should be a type of 'text'`,
     'string.empty': `"description" cannot be empty`,
-    'any.required': `"description" is a required field`
+    'any.required': `"description" is a required field`,
+    'description.maxWords': 'Description must not exceed 300 words',
   }),
 
   status: Joi.string().valid('todo', 'inprogress', 'done').required().messages({
