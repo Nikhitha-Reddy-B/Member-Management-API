@@ -14,7 +14,7 @@ export interface UploadExcelResponse {
 }
 
 export interface UploadTaskExcelRequest {
-  file: Buffer;
+  tasks: TaskData[]; 
 }
 
 export interface UploadTaskExcelResponse {
@@ -27,3 +27,14 @@ export interface FailedRow {
   rowNumber: number;
   reason: string;
 }
+
+
+export interface TaskData {
+  title: string;
+  description: string;
+  status?: string;
+  assignee: number;
+  startDate: string; 
+  endDate: string;
+}
+

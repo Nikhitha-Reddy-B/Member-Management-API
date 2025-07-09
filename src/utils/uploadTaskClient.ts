@@ -14,7 +14,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as unknown as UploadTaskProtoClientType;
 
-console.log("Loaded methods from proto (task):", Object.keys(protoDescriptor.uploadTask.UploadTaskService.service));
+console.log("Loaded UploadTaskService client methods:", Object.keys(protoDescriptor.uploadTask.UploadTaskService.prototype));
 
 export const uploadTaskClient = new protoDescriptor.uploadTask.UploadTaskService(
   process.env.EXPORT_GRPC_URL || 'localhost:4040',

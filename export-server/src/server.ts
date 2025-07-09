@@ -54,6 +54,7 @@ const server = new grpc.Server();
   }
 
   console.log('Registering service methods: ExportExcel (export.proto), UploadExcel (upload.proto), UploadTaskExcel (uploadTask.proto)');
+
   server.addService(exportProtoDescriptor.export.ExportService.service, {
     ExportExcel: handleExportExcel,
   });
