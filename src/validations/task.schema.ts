@@ -22,9 +22,16 @@ export const taskSchema = Joi.object({
     'description.maxWords': 'Description must not exceed 300 words',
   }),
 
-  status: Joi.string().valid('todo', 'inprogress', 'done').required().messages({
-    'any.only': `"status" must be one of [todo, inprogress, done]`,
-    'any.required': `"status" is a required field`
+  status: Joi.string()
+  .custom((value, helpers) => {
+    if (!['todo', 'inprogress', 'done'].includes(value)) {
+      return 'todo';
+    }
+    return value;
+  })
+  .default('todo')
+  .messages({
+    'string.base': `"status" should be a type of 'text'`,
   }),
 
   assignee: Joi.number().integer().positive().required().messages({

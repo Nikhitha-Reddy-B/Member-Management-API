@@ -8,7 +8,7 @@ import { taskSchema } from '../../../src/validations/task.schema';
 interface TaskExcelData {
   title?: string;
   description?: string;
-  status?: 'todo' | 'inprogress' | 'done';
+  status?: string;
   assignee?: number;
   startDate?: Date;
   endDate?: Date;
@@ -51,18 +51,18 @@ export const processUploadTaskExcel = async (buffer: Buffer): Promise<UploadTask
       const taskData: TaskExcelData = {
         title: getCellString(row.getCell(3).value),
         description: getCellString(row.getCell(4).value),
-        status: (getCellString(row.getCell(5).value) as 'todo' | 'inprogress' | 'done') || 'todo',
+        status: getCellString(row.getCell(5).value),
         assignee: member.id,
         startDate: new Date(getCellString(row.getCell(6).value)!),
         endDate: new Date(getCellString(row.getCell(7).value)!),
       };
 
-      const { error } = taskSchema.validate(taskData, { abortEarly: false });
+      const { value, error } = taskSchema.validate(taskData, { abortEarly: false });
       if (error) {
         throw new Error(error.details.map((d) => d.message).join('; '));
       }
 
-      validEntries.push({ data: taskData, rowNumber });
+      validEntries.push({ data: value, rowNumber });
     } catch (err) {
       const reason = err instanceof Error ? err.message : 'Unknown error';
       failedRows.push({ rowNumber, reason });
@@ -78,7 +78,7 @@ export const processUploadTaskExcel = async (buffer: Buffer): Promise<UploadTask
       await Task.create({
         title: entry.data.title,
         description: entry.data.description,
-        status: entry.data.status ?? 'todo',
+        status: entry.data.status,
         assignee: entry.data.assignee,
         startDate: entry.data.startDate,
         endDate: entry.data.endDate,
